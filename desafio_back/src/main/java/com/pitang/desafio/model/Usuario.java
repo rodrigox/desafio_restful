@@ -33,7 +33,7 @@ public class Usuario implements Serializable{
 	private String password;
 	private String phone;
 	@JsonManagedReference
-	@OneToMany(mappedBy="usuario", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="usuario", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<Carro> cars;
 
 	public Long getIdUser() {
