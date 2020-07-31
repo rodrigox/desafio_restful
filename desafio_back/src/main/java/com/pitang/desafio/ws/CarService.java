@@ -49,5 +49,11 @@ public class CarService {
 		return new ResponseEntity<>(carController.getById(id), HttpStatus.OK);
 	}
 	
-	
+	@RequestMapping(value = "/car/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> delete(@PathVariable("id") Long id) throws AppGenericException {
+		
+		carController.delete(id);
+		return new ResponseEntity<List<Carro>>(HttpStatus.OK);
+		
+	}
 }

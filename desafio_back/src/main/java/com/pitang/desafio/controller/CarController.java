@@ -55,6 +55,12 @@ public class CarController {
 		}
 	}
 	
+	public void delete(Long id) throws AppGenericException {
+		
+		getById(id);
+		carDAO.deleteById(id);
+
+	}
 	
 	public Boolean licensePlateExists(Carro car) {
 		List<Carro> carros =  carDAO.findByLicensePlate(car.getLicensePlate());
