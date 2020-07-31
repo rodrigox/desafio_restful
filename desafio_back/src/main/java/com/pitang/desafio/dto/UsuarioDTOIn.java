@@ -2,19 +2,28 @@ package com.pitang.desafio.dto;
 
 import java.util.List;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 import com.pitang.desafio.model.Carro;
 import com.pitang.desafio.model.Usuario;
-import com.pitang.desafio.util.DateUtil;
-
+import com.pitang.desafio.util.Util;
 
 public class UsuarioDTOIn {
 	private  Long idUser;
+	@NotBlank
 	private  String firstName;
+	@NotBlank
 	private  String lastName;
+	@Email
 	private  String email;
+	@NotBlank
 	private  String birthday;
+	@NotBlank
 	private  String login;
+	@NotBlank
 	private  String password;
+	@NotBlank
 	private  String phone;
 	
 	private  List<Carro>cars;
@@ -31,7 +40,7 @@ public class UsuarioDTOIn {
 		this.login = login;
 		this.password = password;
 		this.phone = phone;
-		this.cars = cars;
+		this.cars = null;
 	}
 
 
@@ -45,7 +54,7 @@ public class UsuarioDTOIn {
 		usuario.setFirstName(firstName);
 		usuario.setLastName(lastName);
 		usuario.setEmail(email);
-		usuario.setBirthday(DateUtil.stringToDate(birthday));
+		usuario.setBirthday(Util.stringToDate(birthday));
 		usuario.setLogin(login);
 		usuario.setPassword(password);
 		usuario.setPhone(phone);

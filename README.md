@@ -6,26 +6,26 @@
 
 ***********Historias de usuario ***************
 
-00 Criar um novo usuario e Listar Usuarios 
+HST 00 Criar um novo usuario e Listar Usuarios 
 
-01 Buscar Usuario por ID 
+HST 01 Buscar Usuario por ID 
 
-02 Remover Usuario 
-
-03 Atualizar Usuario 
+HST 02 Atualizar Usuario
+ 
+HST 03 Remover Usuario 
 
 
 #Usuario logado 
 
-04 Exibir informações do usuario  
+  
+04 Cadastrar um carro para usuario 
 
-05 Cadastrar um carro para usuario 
+05 Listar Carros do usuario 
 
-06 Listar Carros do usuario 
+06 Remover carro do usuario 
 
-07 Remover carro do usuario 
-
-08 Atualizar carro do usuario 
+07 Atualizar carro do usuario 
+08 Exibir informações do usuario
 
 
 

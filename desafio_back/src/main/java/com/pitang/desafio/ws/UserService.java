@@ -40,4 +40,11 @@ public class UserService {
 		return new ResponseEntity<>(userController.getById(id), HttpStatus.OK);
 	}
 	
+	
+	@RequestMapping(value = "/user", method = RequestMethod.PUT)
+	public ResponseEntity<?> update(@RequestBody UsuarioDTOIn dto) throws Exception {
+		
+		userController.update(dto.transformToUsuario());
+		return new ResponseEntity<List<Usuario>>(HttpStatus.OK);
+	}
 }

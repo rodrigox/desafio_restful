@@ -53,16 +53,16 @@ public class UserController {
 		
 	}
 	
-	public  Usuario  update(Usuario user) throws Exception {
-		Usuario usuario =  getById(user.getIdUser());
-		
+	public Usuario update(Usuario user) throws Exception {
+		Usuario usuario = getById(user.getIdUser());
+
 		usuario.setFirstName(user.getFirstName());
 		usuario.setLastName(user.getLastName());
-		user.setEmail(user.getEmail());
-		user.setBirthday(user.getBirthday());
-		user.setLogin(user.getLogin());
-		user.setPhone(user.getPhone());
-		
+		usuario.setEmail(user.getEmail());
+		usuario.setBirthday(user.getBirthday());
+		usuario.setLogin(user.getLogin());
+		usuario.setPhone(user.getPhone());
+
 		return usuarioDAO.save(usuario);
 	}
 	
