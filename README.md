@@ -17,15 +17,15 @@ HST 03 Remover Usuario
 
 #Usuario logado 
 
-  
-04 Cadastrar um carro para usuario 
+HST 04 Cadastrar e listar carro do Usuario
 
-05 Listar Carros do usuario 
+HST 05 Buscar Carros do usuario por id 
 
-06 Remover carro do usuario 
+HST 06 Remover carro do usuario 
 
-07 Atualizar carro do usuario 
-08 Exibir informações do usuario
+HST 07 Atualizar carro do usuario 
+
+HST  08 Exibir informações do usuario  
 
 
 

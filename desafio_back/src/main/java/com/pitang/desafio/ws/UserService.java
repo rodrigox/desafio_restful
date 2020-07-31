@@ -29,7 +29,7 @@ public class UserService {
 	}
 	
 	@RequestMapping (value = "/user", method = RequestMethod.POST)
-	public  ResponseEntity<?> save(@RequestBody UsuarioDTOIn dto) {
+	public  ResponseEntity<?> save(@RequestBody UsuarioDTOIn dto) throws Exception {
 		userController.save(dto.transformToUsuario());
 		return new ResponseEntity<List<Usuario>>(HttpStatus.OK);
 	
