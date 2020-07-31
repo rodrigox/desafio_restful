@@ -62,6 +62,18 @@ public class CarController {
 
 	}
 	
+	public void update(Carro car) throws AppGenericException {
+		Carro carro = getById(car.getIdCar());
+
+		carro.setColor(car.getColor());
+		carro.setLicensePlate(car.getLicensePlate());
+		carro.setModel(car.getModel());
+		carro.setYear(car.getYear());
+		
+		carDAO.save(carro);
+
+	}
+	
 	public Boolean licensePlateExists(Carro car) {
 		List<Carro> carros =  carDAO.findByLicensePlate(car.getLicensePlate());
 		return  carros==null || carros.isEmpty()  ? false: true;

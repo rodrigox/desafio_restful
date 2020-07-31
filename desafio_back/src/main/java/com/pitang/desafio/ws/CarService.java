@@ -56,4 +56,13 @@ public class CarService {
 		return new ResponseEntity<List<Carro>>(HttpStatus.OK);
 		
 	}
+	
+	
+	@RequestMapping(value = "/car", method = RequestMethod.PUT)
+	public ResponseEntity<?> update(@RequestBody CarroDTO dto) throws AppGenericException {
+		
+		carController.update(dto.transformToCarro());
+		return new ResponseEntity<List<Carro>>(HttpStatus.OK);
+	}
+	
 }
