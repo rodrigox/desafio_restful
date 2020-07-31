@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import com.pitang.desafio.exception.AppGenericException;
@@ -38,6 +39,22 @@ public class CarController {
              throw new AppGenericException("Missing fields from Car ");
 		}
 	}
+	
+	
+	public Carro getById(Long id) throws AppGenericException {
+
+		
+		if(id ==null) {
+			throw new AppGenericException("Car id Can't be null");
+		}
+		Optional<Carro> returnedValue = carDAO.findById(id);
+		if (!returnedValue.isPresent()) {
+			return returnedValue.get();
+		}else {
+			throw new AppGenericException("Car not found");
+		}
+	}
+	
 	
 	public Boolean licensePlateExists(Carro car) {
 		List<Carro> carros =  carDAO.findByLicensePlate(car.getLicensePlate());
