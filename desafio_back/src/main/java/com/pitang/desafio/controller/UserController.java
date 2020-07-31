@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
+import org.apache.commons.lang3.StringUtils;
 import com.pitang.desafio.exception.AppGenericException;
 import com.pitang.desafio.model.Usuario;
 import com.pitang.desafio.repository.UsuarioDAO;
@@ -22,7 +22,17 @@ public class UserController {
 	public Iterable<?> getAll() {
 		return usuarioDAO.findAll();
 	}
-	public  void   save(Usuario user) {
+	public  void   save(Usuario user) throws Exception {
+		
+		validateFields(user);
+		
+		if(emailExists(user)) {
+			throw new AppGenericException("email already exists");
+		}else if(loginExists(user)) {
+			throw new AppGenericException("Login already exists");
+
+		}
+		
 		usuarioDAO.save(user);
 	}
 	
@@ -44,12 +54,12 @@ public class UserController {
 
 	}
 	
-	public Boolean emailExists(String email) {
-		List<Usuario> uList =  usuarioDAO.findByEmail(email);
+	public Boolean emailExists(Usuario user) {
+		List<Usuario> uList =  usuarioDAO.findByEmail(user.getEmail());
 		return  uList==null || uList.isEmpty()  ? false: true;
 	}
-	public Boolean loginExists(String email) {
-		List<Usuario> uList =  usuarioDAO.findByLogin(email);
+	public Boolean loginExists(Usuario user) {
+		List<Usuario> uList =  usuarioDAO.findByLogin(user.getLogin());
 		return  uList==null || uList.isEmpty()  ? false: true;
 		
 	}
@@ -67,4 +77,15 @@ public class UserController {
 		return usuarioDAO.save(usuario);
 	}
 	
+	
+	
+	private void validateFields(Usuario user) throws Exception{
+		if((StringUtils.isAnyBlank(user.getFirstName(),
+			user.getLastName(),user.getEmail(),
+			user.getLogin(),user.getPhone())) 
+			|| user.getBirthday()==null) {
+			throw new  AppGenericException("Missing fields from Usuario");
+		}
+		
+	}
 }
