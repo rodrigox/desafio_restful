@@ -35,6 +35,9 @@ public class UserService {
 	
 	}
 	
-	
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getUser(@PathVariable("id") Long id) throws Exception {
+		return new ResponseEntity<>(userController.getById(id), HttpStatus.OK);
+	}
 	
 }
