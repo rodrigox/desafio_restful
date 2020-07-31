@@ -47,4 +47,13 @@ public class UserService {
 		userController.update(dto.transformToUsuario());
 		return new ResponseEntity<List<Usuario>>(HttpStatus.OK);
 	}
+	
+	
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> delete(@PathVariable("id") Long id) throws Exception {
+		
+		userController.delete(id) ;
+		return new ResponseEntity<List<Usuario>>(HttpStatus.OK);
+		
+	}
 }

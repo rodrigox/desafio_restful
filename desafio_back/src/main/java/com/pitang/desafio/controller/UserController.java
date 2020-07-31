@@ -26,7 +26,8 @@ public class UserController {
 		usuarioDAO.save(user);
 	}
 	
-	public  void  delete(Long id) {
+	public void delete(Long id) throws Exception {
+		getById(id);
 		usuarioDAO.deleteById(id);
 	}
 	
