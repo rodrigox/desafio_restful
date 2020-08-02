@@ -27,6 +27,9 @@ HST 07 Atualizar carro do usuario
 
 HST  08 Exibir informações do usuario  
 
+HST 09 Autenticação Utilizando Token JWT 
+
+
 
 
 ***********SOLUÇÃO **************

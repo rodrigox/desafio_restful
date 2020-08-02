@@ -1,38 +1,38 @@
 package com.pitang.desafio.exception;
 
-public class AppGenericException  extends Exception{
+public class UnauthorizedException extends RuntimeException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public AppGenericException() {
+	public UnauthorizedException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public AppGenericException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public UnauthorizedException(String message, Throwable cause, boolean enableSuppression,
+			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub
 	}
 
-	public AppGenericException(String message, Throwable cause) {
+	public UnauthorizedException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public AppGenericException(String message) {
+	public UnauthorizedException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 
-	public AppGenericException(Throwable cause) {
+	public UnauthorizedException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
 
 	
-
-
+	
 }

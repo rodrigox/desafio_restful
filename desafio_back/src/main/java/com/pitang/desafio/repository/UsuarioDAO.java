@@ -10,9 +10,11 @@ public interface UsuarioDAO extends JpaRepository<Usuario, Long>{
 
 	
 	
-	List<Usuario>findByLogin(String name);
+	//List<Usuario>findByLogin(String name);
 	
 	List<Usuario>findByEmail(String name);
-
+       
+	Usuario  findByLogin(String login);
+	
 
 }

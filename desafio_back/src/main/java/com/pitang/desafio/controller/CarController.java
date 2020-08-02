@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import com.pitang.desafio.exception.AppGenericException;
+import com.pitang.desafio.exception.BadRequestException;
 import com.pitang.desafio.model.Carro;
 import com.pitang.desafio.repository.CarDAO;
 
@@ -21,48 +21,48 @@ public class CarController {
 	public Iterable<?> getAll() {
 		return carDAO.findAll();
 	}
-	public  void save(Carro car) throws AppGenericException {
+	public  void save(Carro car) throws BadRequestException {
 
 		validateFields(car);
 		if(licensePlateExists(car)) {
-            throw new AppGenericException("license Plate Already exists");
+            throw new BadRequestException("license Plate Already exists");
 		}
 		
 		carDAO.save(car);
 	}
 	
-	private void validateFields(Carro car) throws AppGenericException {
+	private void validateFields(Carro car) throws BadRequestException {
 		if (StringUtils.isAnyBlank(car.getColor(), car.getLicensePlate(), 
 				car.getModel()) || car.getYear() == null
 				|| car.getUsuario().getIdUser() == null) {
 			
-             throw new AppGenericException("Missing fields from Car ");
+             throw new BadRequestException("Missing fields from Car ");
 		}
 	}
 	
 	
-	public Carro getById(Long id) throws AppGenericException {
+	public Carro getById(Long id) throws BadRequestException {
 
 		
 		if(id ==null) {
-			throw new AppGenericException("Car id Can't be null");
+			throw new BadRequestException("Car id Can't be null");
 		}
 		Optional<Carro> returnedValue = carDAO.findById(id);
-		if (!returnedValue.isPresent()) {
+		if (returnedValue.isPresent()) {
 			return returnedValue.get();
 		}else {
-			throw new AppGenericException("Car not found");
+			throw new BadRequestException("Car not found");
 		}
 	}
 	
-	public void delete(Long id) throws AppGenericException {
+	public void delete(Long id) throws BadRequestException {
 		
 		getById(id);
 		carDAO.deleteById(id);
 
 	}
 	
-	public void update(Carro car) throws AppGenericException {
+	public void update(Carro car) throws BadRequestException {
 		Carro carro = getById(car.getIdCar());
 
 		carro.setColor(car.getColor());

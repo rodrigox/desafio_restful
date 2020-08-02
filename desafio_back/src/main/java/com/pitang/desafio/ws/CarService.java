@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pitang.desafio.controller.CarController;
 import com.pitang.desafio.dto.CarroDTO;
-import com.pitang.desafio.exception.AppGenericException;
+import com.pitang.desafio.exception.BadRequestException;
 import com.pitang.desafio.model.Carro;
 
 @RequestMapping("carsystem/api")
@@ -50,7 +50,7 @@ public class CarService {
 	}
 	
 	@RequestMapping(value = "/car/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> delete(@PathVariable("id") Long id) throws AppGenericException {
+	public ResponseEntity<?> delete(@PathVariable("id") Long id) throws BadRequestException {
 		
 		carController.delete(id);
 		return new ResponseEntity<List<Carro>>(HttpStatus.OK);
@@ -59,7 +59,7 @@ public class CarService {
 	
 	
 	@RequestMapping(value = "/car", method = RequestMethod.PUT)
-	public ResponseEntity<?> update(@RequestBody CarroDTO dto) throws AppGenericException {
+	public ResponseEntity<?> update(@RequestBody CarroDTO dto) throws BadRequestException {
 		
 		carController.update(dto.transformToCarro());
 		return new ResponseEntity<List<Carro>>(HttpStatus.OK);
