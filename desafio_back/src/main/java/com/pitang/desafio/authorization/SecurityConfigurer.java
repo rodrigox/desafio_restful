@@ -29,8 +29,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests()
-		.antMatchers("/signin").permitAll()
-		.antMatchers("/user").permitAll()
+		.antMatchers("/carsystem/api/signin").permitAll()
+		.antMatchers("/carsystem/api/user/*").permitAll()
 		.anyRequest().authenticated()
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtFilterRequest, UsernamePasswordAuthenticationFilter.class);

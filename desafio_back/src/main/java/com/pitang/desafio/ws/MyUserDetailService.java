@@ -31,8 +31,8 @@ public class MyUserDetailService implements UserDetailsService{
 		
 		Usuario user = usuarioDAO.findByLogin(userName);
 		
-		//return new User(user.getLogin(),user.getPassword(),new ArrayList<>());
-		return new User("aaa","sss",new ArrayList<>());
+		return new User(user.getLogin(),user.getPassword(),new ArrayList<>());
+		//return new User("aaa","sss",new ArrayList<>());
 
 	}
 
