@@ -27,7 +27,7 @@ public class UserController {
 	}
 	public  void   save(Usuario user) throws BadRequestException {
 		
-		//validateFields(user);
+		validateFields(user);
 		
 		if(emailExists(user)) {
 			throw new BadRequestException("email already exists");
