@@ -22,6 +22,7 @@ import com.pitang.desafio.model.AuthenticationRequest;
 import com.pitang.desafio.model.AuthenticatiorResponse;
 import com.pitang.desafio.model.Usuario;
 
+@RequestMapping("carsystem/api")
 @RestController
 public class AboutUserService {
 	
