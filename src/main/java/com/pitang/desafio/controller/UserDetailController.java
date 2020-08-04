@@ -1,4 +1,4 @@
-package com.pitang.desafio.ws;
+package com.pitang.desafio.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pitang.desafio.authorization.JwtUtl;
-import com.pitang.desafio.controller.UserController;
 import com.pitang.desafio.exception.BadRequestException;
 import com.pitang.desafio.exception.NotFoundException;
 import com.pitang.desafio.model.AuthenticationRequest;
 import com.pitang.desafio.model.AuthenticatiorResponse;
 import com.pitang.desafio.model.Usuario;
+import com.pitang.desafio.service.UserService;
 
 @RequestMapping("carsystem/api")
 @RestController
-public class AboutUserService {
+public class UserDetailController {
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -34,7 +34,7 @@ public class AboutUserService {
 	private JwtUtl jwtUtil;
 	
 	@Autowired
-	private UserController userController;
+	private UserService userService;
 
 	@RequestMapping(value ="/signin", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
@@ -46,7 +46,7 @@ public class AboutUserService {
 		}
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getLogin());
 		
-		 Usuario usuario = userController.findByLogin(authenticationRequest.getLogin());
+		 Usuario usuario = userService.findByLogin(authenticationRequest.getLogin());
 		final String jwt = jwtUtil.generateToken(userDetails);
 		
 		return ResponseEntity.ok(new AuthenticatiorResponse(jwt,authenticationRequest.getLogin(),usuario.getIdUser(),true));
@@ -56,7 +56,7 @@ public class AboutUserService {
 	
 	@RequestMapping(value = "/me/{login}", method = RequestMethod.GET)
 	public ResponseEntity<?> getUser(@PathVariable("login") String login) throws NotFoundException,BadRequestException  {
-			return new ResponseEntity<>(userController.findByLogin(login), HttpStatus.OK);
+			return new ResponseEntity<>(userService.findByLogin(login), HttpStatus.OK);
 	}
 	
 	

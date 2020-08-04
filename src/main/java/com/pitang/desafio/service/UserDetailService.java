@@ -1,4 +1,4 @@
-package com.pitang.desafio.ws;
+package com.pitang.desafio.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pitang.desafio.exception.NotFoundException;
 import com.pitang.desafio.model.Usuario;
-import com.pitang.desafio.repository.UsuarioDAO;
+import com.pitang.desafio.repository.UserRepository;
 
 @Service
-public class MyUserDetailService implements UserDetailsService{
+public class UserDetailService implements UserDetailsService{
 
 	
 
 	@Autowired
-	private UsuarioDAO usuarioDAO;
+	private UserRepository usuarioDAO;
 	
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {

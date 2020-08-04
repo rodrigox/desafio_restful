@@ -11,13 +11,13 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.pitang.desafio.ws.MyUserDetailService;
+import com.pitang.desafio.service.UserDetailService;
 
 @EnableWebSecurity
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter{
 
 	@Autowired
-	private MyUserDetailService myUserDetailsService;
+	private UserDetailService myUserDetailsService;
 	@Autowired
 	private JwtFilterRequest jwtFilterRequest;
 

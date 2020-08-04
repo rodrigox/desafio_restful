@@ -1,111 +1,64 @@
 package com.pitang.desafio.controller;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.pitang.desafio.dto.UsuarioDTOIn;
 import com.pitang.desafio.exception.BadRequestException;
 import com.pitang.desafio.exception.NotFoundException;
 import com.pitang.desafio.model.Usuario;
-import com.pitang.desafio.repository.UsuarioDAO;
+import com.pitang.desafio.service.UserService;
 
-
-
-@Controller
+@RequestMapping("carsystem/api")
+@RestController
 public class UserController {
 
 	@Autowired
-	private UsuarioDAO usuarioDAO;
+	private UserService userService;
 	
 	
-	public Iterable<?> getAll() {
-		return usuarioDAO.findAll();
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	public ResponseEntity<?> listAll() {
+		return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
 	}
-	public  void   save(Usuario user) throws BadRequestException {
+	
+	@RequestMapping (value = "/user", method = RequestMethod.POST)
+	public  ResponseEntity<?> save(@RequestBody UsuarioDTOIn dto) throws BadRequestException {
+		userService.save(dto.transformToUsuario());
+		return new ResponseEntity<List<Usuario>>(HttpStatus.OK);
+	
+	}
+	
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getUser(@PathVariable("id") Long id) throws NotFoundException,BadRequestException  {
+			return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/user", method = RequestMethod.PUT)
+	public ResponseEntity<?> update(@RequestBody UsuarioDTOIn dto) throws NotFoundException,BadRequestException {
 		
-		validateFields(user);
+		userService.update(dto.transformToUsuario());
+		return new ResponseEntity<List<Usuario>>(HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> delete(@PathVariable("id") Long id) throws NotFoundException,BadRequestException {
 		
-		if(emailExists(user)) {
-			throw new BadRequestException("email already exists");
-		}else if(loginExists(user)) {
-			throw new BadRequestException("Login already exists");
-
-		}
-		
-		
-		user.setCreationDate(Calendar.getInstance().getTime());
-		usuarioDAO.save(user);
-	}
-	
-	public void delete(Long id) throws NotFoundException,BadRequestException {
-		getById(id);
-		usuarioDAO.deleteById(id);
-	}
-	
-	public  Usuario  getById(Long id) throws NotFoundException,BadRequestException {
-		if(id ==null) {
-			throw new BadRequestException("User id Can't be null");
-		}
-		Optional<Usuario> returned = usuarioDAO.findById(id);
-		if (returned.isPresent()) {
-			return returned.get();
-		}else {
-			throw new NotFoundException("User not found");
-		}
-
-	}
-	
-	public Boolean emailExists(Usuario user) {
-		List<Usuario> uList =  usuarioDAO.findByEmail(user.getEmail());
-		return  uList==null || uList.isEmpty()  ? false: true;
-	}
-	public Boolean loginExists(Usuario user) {
-		Usuario userReturned =  usuarioDAO.findByLogin(user.getLogin());
-		return  userReturned==null  ? false: true;
-		
-	}
-	
-	
-	public Usuario findByLogin(String login) {
-		
-		if(login ==null || login.isEmpty()) {
-			throw new BadRequestException("User login Can't be null");
-		}
-		Usuario returned = usuarioDAO.findByLogin(login);
-		if (returned!=null) {
-			return returned;
-		}else {
-			throw new NotFoundException("User not found");
-		}
-		
-	}
-	
-	public Usuario update(Usuario user) throws NotFoundException,BadRequestException {
-		Usuario usuario = getById(user.getIdUser());
-
-		usuario.setFirstName(user.getFirstName());
-		usuario.setLastName(user.getLastName());
-		usuario.setEmail(user.getEmail());
-		usuario.setBirthday(user.getBirthday());
-		usuario.setLogin(user.getLogin());
-		usuario.setPhone(user.getPhone());
-
-		return usuarioDAO.save(usuario);
-	}
-	
-	
-	
-	private void validateFields(Usuario user) throws BadRequestException{
-		if((StringUtils.isAnyBlank(user.getFirstName(),
-			user.getLastName(),user.getEmail(),
-			user.getLogin(),user.getPhone())) 
-			|| user.getBirthday()==null) {
-			throw new  BadRequestException("Missing fields from Usuario");
-		}
+		userService.delete(id) ;
+		return new ResponseEntity<List<Usuario>>(HttpStatus.OK);
 		
 	}
 }
