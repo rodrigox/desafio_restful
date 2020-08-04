@@ -34,8 +34,13 @@ HST 09 Autenticação Utilizando Token JWT
 
 ***********SOLUÇÃO **************
 
-* O projeto foi construido utilizando  Spring Boot JPA - Hibernate ,e banco de dados em menoria H2
-* foi criada uma estrutura MVC Urilizando os recursos do Spring e para cada classe de modelo um service correspondente  "UserService" e "carService"
+* O projeto foi construido utilizando  
+ Spring Boot 
+ JPA - Hibernate
+ banco de dados em menoria H2
+ Testes -  Mockito/Junit
+ 
+* foi criada uma estrutura MVC utilizando os recursos do Spring e para cada classe de modelo um service correspondente  "UserService" e "carService"
 
 
  
