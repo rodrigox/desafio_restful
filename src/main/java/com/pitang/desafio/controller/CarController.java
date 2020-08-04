@@ -65,4 +65,10 @@ public class CarController {
 		return new ResponseEntity<List<Carro>>(HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/car/user/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getCarByUserId(@PathVariable("id") Long id) throws BadRequestException {
+		return new ResponseEntity<>(carService.getAllCarsFromUser(id), HttpStatus.OK);
+	}
+	
+	
 }

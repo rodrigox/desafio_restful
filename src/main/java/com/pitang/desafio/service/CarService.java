@@ -30,7 +30,7 @@ public class CarService {
 		return carRepository.findAll();
 	}
 	
-	private  List<Carro> getAllCarsFromUser(Long idUser) throws BadRequestException {
+	public  List<Carro> getAllCarsFromUser(Long idUser) throws BadRequestException {
 		 Optional<Usuario> optional=  userRepository.findById(idUser);
 		 if(optional.isPresent()) {
 			return optional.get().getCars();
