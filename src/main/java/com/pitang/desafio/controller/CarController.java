@@ -1,81 +1,68 @@
 package com.pitang.desafio.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
 import java.util.List;
-import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.pitang.desafio.dto.CarroDTO;
 import com.pitang.desafio.exception.BadRequestException;
 import com.pitang.desafio.model.Carro;
-import com.pitang.desafio.repository.CarDAO;
+import com.pitang.desafio.service.CarService;
 
-@Controller
+@RequestMapping("carsystem/api")
+@RestController
 public class CarController {
 
+	
 	@Autowired
-	private CarDAO carDAO;
-	
-	
-	public Iterable<?> getAll() {
-		return carDAO.findAll();
-	}
-	public  void save(Carro car) throws BadRequestException {
+	private CarService carService;
+	@Autowired
+	private UserController userController;
 
-		validateFields(car);
-		if(licensePlateExists(car)) {
-            throw new BadRequestException("license Plate Already exists");
-		}
+
+	@RequestMapping(value = "/car", method = RequestMethod.GET)
+	public ResponseEntity<?> listAll() {
+		return new ResponseEntity<>(carService.getAll(), HttpStatus.OK);
+	}
+	
+	
+	
+	@RequestMapping (value = "/car", method = RequestMethod.POST)
+	public  ResponseEntity<?> save(@RequestBody CarroDTO dto) throws Exception {
+		Carro car = dto.transformToCarro();
 		
-		carDAO.save(car);
-	}
-	
-	private void validateFields(Carro car) throws BadRequestException {
-		if (StringUtils.isAnyBlank(car.getColor(), car.getLicensePlate(), 
-				car.getModel()) || car.getYear() == null
-				|| car.getUsuario().getIdUser() == null) {
-			
-             throw new BadRequestException("Missing fields from Car ");
-		}
-	}
-	
-	
-	public Carro getById(Long id) throws BadRequestException {
-
+		userController.getUser(car.getUsuario().getIdUser());
+		carService.save(dto.transformToCarro());
+		return new ResponseEntity<List<Carro>>(HttpStatus.OK);
 		
-		if(id ==null) {
-			throw new BadRequestException("Car id Can't be null");
-		}
-		Optional<Carro> returnedValue = carDAO.findById(id);
-		if (returnedValue.isPresent()) {
-			return returnedValue.get();
-		}else {
-			throw new BadRequestException("Car not found");
-		}
 	}
 	
-	public void delete(Long id) throws BadRequestException {
+	@RequestMapping(value = "/car/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getCar(@PathVariable("id") Long id) throws Exception {
+		return new ResponseEntity<>(carService.getById(id), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/car/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> delete(@PathVariable("id") Long id) throws BadRequestException {
 		
-		getById(id);
-		carDAO.deleteById(id);
-
-	}
-	
-	public void update(Carro car) throws BadRequestException {
-		Carro carro = getById(car.getIdCar());
-
-		carro.setColor(car.getColor());
-		carro.setLicensePlate(car.getLicensePlate());
-		carro.setModel(car.getModel());
-		carro.setYear(car.getYear());
+		carService.delete(id);
+		return new ResponseEntity<List<Carro>>(HttpStatus.OK);
 		
-		carDAO.save(carro);
-
 	}
 	
-	public Boolean licensePlateExists(Carro car) {
-		List<Carro> carros =  carDAO.findByLicensePlate(car.getLicensePlate());
-		return  carros==null || carros.isEmpty()  ? false: true;
+	
+	@RequestMapping(value = "/car", method = RequestMethod.PUT)
+	public ResponseEntity<?> update(@RequestBody CarroDTO dto) throws BadRequestException {
+		
+		carService.update(dto.transformToCarro());
+		return new ResponseEntity<List<Carro>>(HttpStatus.OK);
 	}
+	
 }
