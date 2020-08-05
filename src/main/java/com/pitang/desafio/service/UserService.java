@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.apache.commons.lang3.StringUtils;
 import com.pitang.desafio.exception.BadRequestException;
 import com.pitang.desafio.exception.NotFoundException;
+import com.pitang.desafio.model.Carro;
 import com.pitang.desafio.model.Usuario;
 import com.pitang.desafio.repository.UserRepository;
 
@@ -88,6 +89,20 @@ public class UserService {
 	public Usuario update(Usuario user) throws NotFoundException,BadRequestException {
 		Usuario usuario = getById(user.getIdUser());
 
+		
+		List<Usuario> userEmail = usuarioDAO.findByEmail(user.getEmail());
+		
+		if(userEmail!=null  && !userEmail.isEmpty() 
+				&&  userEmail.get(0).getEmail()!= user.getEmail()) {
+			throw new BadRequestException("User Email already exists");
+		}
+		
+        Usuario userLogin = usuarioDAO.findByLogin(user.getLogin());
+		
+		if(userLogin!=null  && userLogin.getLogin()!= user.getLogin()) {
+			throw new BadRequestException("User Login already exists");
+		}
+		
 		usuario.setFirstName(user.getFirstName());
 		usuario.setLastName(user.getLastName());
 		usuario.setEmail(user.getEmail());

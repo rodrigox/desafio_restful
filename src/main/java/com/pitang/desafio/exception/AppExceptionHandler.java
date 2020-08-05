@@ -42,7 +42,19 @@ public class AppExceptionHandler  extends ResponseEntityExceptionHandler{
 		return  new ResponseEntity<>(errorMessage, new HttpHeaders(),HttpStatus.NOT_FOUND);
 	}
 	
-	
+
+	@ExceptionHandler(value = LoginException.class)
+	public ResponseEntity<Object> handIncorrectLoginException(LoginException ex, WebRequest request){
+		
+		
+		String erroMessageDescriptor = ex.getLocalizedMessage();
+		if(erroMessageDescriptor==null) {
+			erroMessageDescriptor = ex.toString();
+		}
+		ErrorMessage errorMessage = new ErrorMessage(new Date(),erroMessageDescriptor,HttpStatus.NOT_FOUND.value());
+
+		return  new ResponseEntity<>(errorMessage, new HttpHeaders(),HttpStatus.NOT_FOUND);
+	}
 	
 	@ExceptionHandler(value = UnauthorizedException.class)
 	public ResponseEntity<Object> handUnauthorizedException(UnauthorizedException ex, WebRequest request){
