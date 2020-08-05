@@ -93,13 +93,13 @@ public class UserService {
 		List<Usuario> userEmail = usuarioDAO.findByEmail(user.getEmail());
 		
 		if(userEmail!=null  && !userEmail.isEmpty() 
-				&&  userEmail.get(0).getEmail()!= user.getEmail()) {
+				&&  userEmail.get(0).getIdUser()!= user.getIdUser()) {
 			throw new BadRequestException("User Email already exists");
 		}
 		
         Usuario userLogin = usuarioDAO.findByLogin(user.getLogin());
 		
-		if(userLogin!=null  && userLogin.getLogin()!= user.getLogin()) {
+		if(userLogin!=null  && userLogin.getIdUser()!= user.getIdUser()) {
 			throw new BadRequestException("User Login already exists");
 		}
 		
